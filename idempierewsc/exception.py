@@ -20,18 +20,17 @@ along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 
 
 class WebServiceException(Exception):
-    def __init__(self, message):
-        super(WebServiceException, self).__init__(message)
-
-    def __init__(self, message, cause):
-        super(WebServiceException, self).__init__(message + u', caused by ' + repr(cause))
-        self.cause = cause
-
+    def __init__(self, message, cause=None):
+        if cause:
+            super(WebServiceException, self).__init__(message + u', caused by ' + repr(cause))
+            self.cause = cause
+        else:
+            super(WebServiceException, self).__init__(message)
 
 class WebServiceTimeoutException(Exception):
-    def __init__(self, message):
-        super(WebServiceTimeoutException, self).__init__(message)
-
-    def __init__(self, message, cause):
-        super(WebServiceTimeoutException, self).__init__(message + u', caused by ' + repr(cause))
-        self.cause = cause
+    def __init__(self, message, cause=None):
+        if cause:
+            super(WebServiceTimeoutException, self).__init__(message + u', caused by ' + repr(cause))
+            self.cause = cause
+        else:
+            super(WebServiceTimeoutException, self).__init__(message)
