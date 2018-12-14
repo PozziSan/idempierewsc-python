@@ -18,10 +18,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import enum
+from enum import Enum
 
 
-class WebServiceDefinition(enum.Enum):
+class WebServiceDefinition(Enum):
     """
     WebService Type Definition
     """
@@ -29,7 +29,7 @@ class WebServiceDefinition(enum.Enum):
     compositeInterface = 'compositeInterface'
 
 
-class WebServiceMethod(enum.Enum):
+class WebServiceMethod(Enum):
     """
     WebService Method
     """
@@ -45,7 +45,7 @@ class WebServiceMethod(enum.Enum):
     compositeOperation = 'compositeOperation'
 
 
-class WebServiceResponseModel(enum.Enum):
+class WebServiceResponseModel(Enum):
     """
     Response Model
     """
@@ -55,7 +55,7 @@ class WebServiceResponseModel(enum.Enum):
     CompositeResponse = 'CompositeResponse'
 
 
-class WebServiceResponseStatus(enum.Enum):
+class WebServiceResponseStatus(Enum):
     """
     Response Status
     """
@@ -64,7 +64,7 @@ class WebServiceResponseStatus(enum.Enum):
     Unsuccessful = 'Unsuccessful'
 
 
-class WebServiceRequestModel(enum.Enum):
+class WebServiceRequestModel(Enum):
     """
     Request Model
     """
@@ -75,7 +75,7 @@ class WebServiceRequestModel(enum.Enum):
     CompositeRequest = 'CompositeRequest'
 
 
-class ModelCRUDAction(enum.Enum):
+class ModelCRUDAction(Enum):
     """
     ModelCRUD Action Values
     """
@@ -86,7 +86,7 @@ class ModelCRUDAction(enum.Enum):
     Update = 'Update'
 
 
-class DocAction(enum.Enum):
+class DocAction(Enum):
     """
     iDempiere Document Action Values
     """
@@ -107,7 +107,7 @@ class DocAction(enum.Enum):
     ReOpen = 'OP'
 
 
-class DocStatus(enum.Enum):
+class DocStatus(Enum):
     """
     iDempiere Document Status Values
     """
@@ -125,7 +125,7 @@ class DocStatus(enum.Enum):
     WaitingConfirmation = 'WC'
 
 
-class Language(enum.Enum):
+class Language(Enum):
     """
     iDempiere Language Values
     """

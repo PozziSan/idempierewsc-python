@@ -18,10 +18,12 @@ You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import abc
-import base64
-import datetime
-import idempierewsc.enums
+from abc import ABCMeta
+from abc import abstractmethod
+from base64 import b64encode
+from base64 import b64decode
+from datetime import datetime
+from idempierewsc import enums
 
 
 class LoginRequest(object):
@@ -32,7 +34,7 @@ class LoginRequest(object):
     def __init__(self):
         self.user = ''
         self.password = ''
-        self.lang = idempierewsc.enums.Language.en_US
+        self.lang = enums.Language.en_US
         self.client_id = 0
         self.role_id = 0
         self.org_id = 0
@@ -55,14 +57,14 @@ class Field(object):
         self.error = None
         self.error_val = ''
 
-    def set_byte_value(self, val):
+    def set_byte_value(self, val=None):
         """
         Convert byte to base 64
         :param val: Value to Base 64
         :return: None
         """
         if val:
-            self.value = base64.b64encode(val)
+            self.value = b64encode(val)
 
     def get_byte_value(self):
         """
@@ -70,8 +72,8 @@ class Field(object):
         :return: Base64
         """
         if self.value:
-            return base64.b64decode(self.value)
-        return ''
+            return b64decode(self.value)
+        return False
 
     def get_boolean_value(self):
         """
@@ -86,7 +88,7 @@ class Field(object):
 
             if temp_value in ('N', 'NO'):
                 return False
-        return ''
+        return False
 
     def get_type(self):
         """
@@ -102,7 +104,7 @@ class Field(object):
         """
         if self.value:
             temp_value = str(self.value)
-            return datetime.datetime.strptime(temp_value, '%Y-%m-%d %H:%M:%S')
+            return datetime.strptime(temp_value, '%Y-%m-%d %H:%M:%S')
         return ''
 
     def get_doc_status_value(self):
@@ -112,7 +114,7 @@ class Field(object):
         """
         if self.value:
             temp_value = str(self.value)
-            return idempierewsc.enums.DocStatus(temp_value)
+            return enums.DocStatus(temp_value)
         return ''
 
     def get_doc_action_value(self):
@@ -122,7 +124,7 @@ class Field(object):
         """
         if self.value:
             temp_value = str(self.value)
-            return idempierewsc.enums.DocAction(temp_value)
+            return enums.DocAction(temp_value)
         return ''
 
 
@@ -141,14 +143,14 @@ class WebServiceResponse(object):
     """
     Class to abstract the iDempiere response
     """
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         self.error_message = ''
         self.web_service_type = ''
-        self.status = idempierewsc.enums.WebServiceResponseStatus.Successful
+        self.status = enums.WebServiceResponseStatus.Successful
 
-    @abc.abstractmethod
+    @abstractmethod
     def web_service_response_model(self):
         pass
 
@@ -157,25 +159,25 @@ class WebServiceRequest(object):
     """
     Class to abstract the iDempiere request
     """
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         self.login = LoginRequest()
         self.web_service_type = ''
 
-    @abc.abstractmethod
+    @abstractmethod
     def web_service_response_model(self):
         pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def web_service_request_model(self):
         pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def web_service_method(self):
         pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def web_service_definition(self):
         pass
 
@@ -184,7 +186,7 @@ class ModelCRUDRequest(WebServiceRequest):
     """
     ModelCRUDRequest. Web Service Request
     """
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         super(ModelCRUDRequest, self).__init__()
@@ -198,14 +200,14 @@ class ModelCRUDRequest(WebServiceRequest):
         self.table_name = ''
 
     def web_service_request_model(self):
-        return idempierewsc.enums.WebServiceRequestModel.ModelCRUDRequest
+        return enums.WebServiceRequestModel.ModelCRUDRequest
 
 
 class ModelGetListRequest(WebServiceRequest):
     """
     ModelGetListRequest. Web Service Request
     """
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         super(ModelGetListRequest, self).__init__()
@@ -213,14 +215,14 @@ class ModelGetListRequest(WebServiceRequest):
         self.filter = ''
 
     def web_service_request_model(self):
-        return idempierewsc.enums.WebServiceRequestModel.ModelGetListRequest
+        return enums.WebServiceRequestModel.ModelGetListRequest
 
 
 class ModelRunProcessRequest(WebServiceRequest):
     """
     ModelRunProcessRequest. Web Service Request
     """
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         super(ModelRunProcessRequest, self).__init__()
@@ -231,14 +233,14 @@ class ModelRunProcessRequest(WebServiceRequest):
         self.ad_process_id = 0
 
     def web_service_request_model(self):
-        return idempierewsc.enums.WebServiceRequestModel.ModelRunProcessRequest
+        return enums.WebServiceRequestModel.ModelRunProcessRequest
 
 
 class ModelSetDocActionRequest(WebServiceRequest):
     """
     ModelSetDocActionRequest. Web Service Request
     """
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         super(ModelSetDocActionRequest, self).__init__()
@@ -248,18 +250,18 @@ class ModelSetDocActionRequest(WebServiceRequest):
         self.doc_action = None
 
     def web_service_request_model(self):
-        return idempierewsc.enums.WebServiceRequestModel.ModelSetDocActionRequest
+        return enums.WebServiceRequestModel.ModelSetDocActionRequest
 
 
 class CompositeRequest(WebServiceRequest):
     """
     CompositeRequest. Web Service Request
     """
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         super(CompositeRequest, self).__init__()
         self.operations = []
 
     def web_service_request_model(self):
-        return idempierewsc.enums.WebServiceRequestModel.CompositeRequest
+        return enums.WebServiceRequestModel.CompositeRequest

@@ -61,10 +61,14 @@ class WebServiceConnection(object):
         Gets full user agent
         :return: Full user agent name
         """
-        return '{} ({}/{}/{}/{}) {}'.format(idempierewsc.name, idempierewsc.component_name,
-                                            idempierewsc.version, "Python",
-                                            platform.platform(),
-                                            self.app_name).strip()
+        return '{} ({}/{}/{}/{}) {}'.format(
+            idempierewsc.name, 
+            idempierewsc.component_name,
+            idempierewsc.version, 
+            "Python",        
+            platform.platform(),
+            self.app_name
+        ).strip()
 
     def path(self):
         """
@@ -126,10 +130,17 @@ class WebServiceConnection(object):
         while not successful:
             self.attempts_request += 1
             try:
-                r = requests.post(self.web_service_url(), data=data_request,
-                                  headers={self.CONTENT_TYPE_HEADER: self.CONTENT_TYPE,
-                                           self.USE_AGENT_HEADER: self.user_agent()},
-                                  verify=False, timeout=(float(self.timeout) / 1000.), proxies=self.proxies)
+                r = requests.post(
+                    self.web_service_url(), 
+                    data=data_request,
+                    headers={
+                        self.CONTENT_TYPE_HEADER: self.CONTENT_TYPE,
+                        self.USE_AGENT_HEADER: self.user_agent()
+                    },
+                    verify=False, 
+                    timeout=(float(self.timeout) / 1000.), 
+                    proxies=self.proxies
+                )
 
                 if r.status_code != requests.codes.ok:
                     r.raise_for_status()
@@ -142,9 +153,15 @@ class WebServiceConnection(object):
                     self.time_request = int(time.time() * 1000.) - start_time
                     if isinstance(e, requests.exceptions.ReadTimeout):
                         raise idempierewsc.exception.WebServiceTimeoutException(
-                                'Timeout exception, operation has expired' + str(e.message), e)
+                                'Timeout exception, operation has expired {} {}'.format(
+                                    str(e.message), 
+                                    e
+                        )) 
                     else:
-                        raise idempierewsc.exception.WebServiceException('Error sending request: ' + str(e.message), e)
+                        raise idempierewsc.exception.WebServiceException('Error sending request: {} {}'.format(
+                            str(e.message), 
+                            e
+                        ))
                 else:
                     time.sleep(float(self.attempts_timeout) / 1000.)
 
