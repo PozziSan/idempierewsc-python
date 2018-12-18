@@ -2,7 +2,7 @@
 """
 Copyright (c) 2016 Saúl Piña <sauljabin@gmail.com>.
 
-This file is part of idempierewsc.
+This file is part of 
 
 idempierewsc is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -15,17 +15,17 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
-along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
+along with   If not, see <http://www.gnu.org/licenses/>.
 """
 
-import idempierewsc.base
-import idempierewsc.enums
+from idempierewsc import base
+from idempierewsc import enums
 import datetime
 import lxml.etree
 import sys
 
 
-class CompositeOperationRequest(idempierewsc.base.CompositeRequest):
+class CompositeOperationRequest(base.CompositeRequest):
     """
     iDempiere Web Service Composite
     """
@@ -34,16 +34,16 @@ class CompositeOperationRequest(idempierewsc.base.CompositeRequest):
         super(CompositeOperationRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.CompositeResponse
+        return enums.WebServiceResponseModel.CompositeResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.compositeOperation
+        return enums.WebServiceMethod.compositeOperation
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.compositeInterface
+        return enums.WebServiceDefinition.compositeInterface
 
 
-class CreateDataRequest(idempierewsc.base.ModelCRUDRequest):
+class CreateDataRequest(base.ModelCRUDRequest):
     """
     iDempiere Web Service CreateData
     """
@@ -52,16 +52,16 @@ class CreateDataRequest(idempierewsc.base.ModelCRUDRequest):
         super(CreateDataRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.StandardResponse
+        return enums.WebServiceResponseModel.StandardResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.createData
+        return enums.WebServiceMethod.createData
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
-class CreateUpdateDataRequest(idempierewsc.base.ModelCRUDRequest):
+class CreateUpdateDataRequest(base.ModelCRUDRequest):
     """
     iDempiere Web Service CreateUpdateData
     """
@@ -70,16 +70,16 @@ class CreateUpdateDataRequest(idempierewsc.base.ModelCRUDRequest):
         super(CreateUpdateDataRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.StandardResponse
+        return enums.WebServiceResponseModel.StandardResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.createUpdateData
+        return enums.WebServiceMethod.createUpdateData
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
-class DeleteDataRequest(idempierewsc.base.ModelCRUDRequest):
+class DeleteDataRequest(base.ModelCRUDRequest):
     """
     iDempiere Web Service DeleteDataRequest
     """
@@ -88,16 +88,16 @@ class DeleteDataRequest(idempierewsc.base.ModelCRUDRequest):
         super(DeleteDataRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.StandardResponse
+        return enums.WebServiceResponseModel.StandardResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.deleteData
+        return enums.WebServiceMethod.deleteData
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
-class UpdateDataRequest(idempierewsc.base.ModelCRUDRequest):
+class UpdateDataRequest(base.ModelCRUDRequest):
     """
     iDempiere Web Service UpdateDataRequest
     """
@@ -106,16 +106,16 @@ class UpdateDataRequest(idempierewsc.base.ModelCRUDRequest):
         super(UpdateDataRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.StandardResponse
+        return enums.WebServiceResponseModel.StandardResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.updateData
+        return enums.WebServiceMethod.updateData
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
-class ReadDataRequest(idempierewsc.base.ModelCRUDRequest):
+class ReadDataRequest(base.ModelCRUDRequest):
     """
     iDempiere Web Service ReadDataRequest
     """
@@ -124,16 +124,16 @@ class ReadDataRequest(idempierewsc.base.ModelCRUDRequest):
         super(ReadDataRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.WindowTabDataResponse
+        return enums.WebServiceResponseModel.WindowTabDataResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.readData
+        return enums.WebServiceMethod.readData
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
-class QueryDataRequest(idempierewsc.base.ModelCRUDRequest):
+class QueryDataRequest(base.ModelCRUDRequest):
     """
     iDempiere Web Service QueryDataRequest
     """
@@ -142,16 +142,16 @@ class QueryDataRequest(idempierewsc.base.ModelCRUDRequest):
         super(QueryDataRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.WindowTabDataResponse
+        return enums.WebServiceResponseModel.WindowTabDataResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.queryData
+        return enums.WebServiceMethod.queryData
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
-class GetListRequest(idempierewsc.base.ModelGetListRequest):
+class GetListRequest(base.ModelGetListRequest):
     """
     iDempiere Web Service GetListRequest
     """
@@ -160,16 +160,16 @@ class GetListRequest(idempierewsc.base.ModelGetListRequest):
         super(GetListRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.WindowTabDataResponse
+        return enums.WebServiceResponseModel.WindowTabDataResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.getList
+        return enums.WebServiceMethod.getList
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
-class RunProcessRequest(idempierewsc.base.ModelRunProcessRequest):
+class RunProcessRequest(base.ModelRunProcessRequest):
     """
     iDempiere Web Service RunProcessRequest
     """
@@ -178,16 +178,16 @@ class RunProcessRequest(idempierewsc.base.ModelRunProcessRequest):
         super(RunProcessRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.RunProcessResponse
+        return enums.WebServiceResponseModel.RunProcessResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.runProcess
+        return enums.WebServiceMethod.runProcess
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
-class SetDocActionRequest(idempierewsc.base.ModelSetDocActionRequest):
+class SetDocActionRequest(base.ModelSetDocActionRequest):
     """
     iDempiere Web Service SetDocActionRequest
     """
@@ -196,13 +196,13 @@ class SetDocActionRequest(idempierewsc.base.ModelSetDocActionRequest):
         super(SetDocActionRequest, self).__init__()
 
     def web_service_response_model(self):
-        return idempierewsc.enums.WebServiceResponseModel.StandardResponse
+        return enums.WebServiceResponseModel.StandardResponse
 
     def web_service_method(self):
-        return idempierewsc.enums.WebServiceMethod.setDocAction
+        return enums.WebServiceMethod.setDocAction
 
     def web_service_definition(self):
-        return idempierewsc.enums.WebServiceDefinition.ModelADService
+        return enums.WebServiceDefinition.ModelADService
 
 
 class RequestFactory(object):
@@ -275,7 +275,7 @@ class RequestFactory(object):
         """
         request = self.create_element_0(wsr.web_service_request_model().value)
 
-        if wsr.web_service_request_model() == idempierewsc.enums.WebServiceRequestModel.CompositeRequest:
+        if wsr.web_service_request_model() == enums.WebServiceRequestModel.CompositeRequest:
             request.append(self.create_element_0('serviceType', wsr.web_service_type))
 
         request.append(self.build_model(wsr))
@@ -299,7 +299,7 @@ class RequestFactory(object):
             login.append(self.create_element_0('pass', log.password))
 
         if log.lang:
-            if isinstance(log.lang, idempierewsc.enums.Language):
+            if isinstance(log.lang, enums.Language):
                 temp_lang = log.lang.value
             else:
                 temp_lang = log.lang
@@ -328,13 +328,13 @@ class RequestFactory(object):
         :param wsr: Web Services
         :return: Xml Model
         """
-        if wsr.web_service_request_model() == idempierewsc.enums.WebServiceRequestModel.CompositeRequest:
+        if wsr.web_service_request_model() == enums.WebServiceRequestModel.CompositeRequest:
             model = self.create_element_0('operations')
             if wsr.operations:
                 for i in wsr.operations:
                     model.append(self.build_operation(i))
             return model
-        elif wsr.web_service_request_model() == idempierewsc.enums.WebServiceRequestModel.ModelCRUDRequest:
+        elif wsr.web_service_request_model() == enums.WebServiceRequestModel.ModelCRUDRequest:
             model = self.create_element_0('ModelCRUD')
             model.append(self.create_element_0('serviceType', wsr.web_service_type))
 
@@ -363,7 +363,7 @@ class RequestFactory(object):
                 model.append(self.build_data_row(wsr.data_row))
 
             return model
-        elif wsr.web_service_request_model() == idempierewsc.enums.WebServiceRequestModel.ModelGetListRequest:
+        elif wsr.web_service_request_model() == enums.WebServiceRequestModel.ModelGetListRequest:
             model = self.create_element_0('ModelGetList')
             model.append(self.create_element_0('serviceType', wsr.web_service_type))
 
@@ -374,7 +374,7 @@ class RequestFactory(object):
                 model.append(self.create_element_0('AD_Reference_ID', wsr.ad_reference_id))
 
             return model
-        elif wsr.web_service_request_model() == idempierewsc.enums.WebServiceRequestModel.ModelRunProcessRequest:
+        elif wsr.web_service_request_model() == enums.WebServiceRequestModel.ModelRunProcessRequest:
             model = self.create_element_0('ModelRunProcess')
             model.append(self.create_element_0('serviceType', wsr.web_service_type))
 
@@ -394,7 +394,7 @@ class RequestFactory(object):
                 model.append(self.build_param_values(wsr.param_values))
 
             return model
-        elif wsr.web_service_request_model() == idempierewsc.enums.WebServiceRequestModel.ModelSetDocActionRequest:
+        elif wsr.web_service_request_model() == enums.WebServiceRequestModel.ModelSetDocActionRequest:
             model = self.create_element_0('ModelSetDocAction')
             model.append(self.create_element_0('serviceType', wsr.web_service_type))
 
@@ -408,7 +408,7 @@ class RequestFactory(object):
                 model.append(self.create_element_0('recordIDVariable', wsr.record_id_variable))
 
             if wsr.doc_action:
-                if isinstance(wsr.doc_action, idempierewsc.enums.DocAction):
+                if isinstance(wsr.doc_action, enums.DocAction):
                     model.append(self.create_element_0('docAction', str(wsr.doc_action.value)))
                 else:
                     model.append(self.create_element_0('docAction', str(wsr.doc_action)))
@@ -487,9 +487,9 @@ class RequestFactory(object):
                 temp_value = 'Y' if value else 'N'
             elif isinstance(value, datetime.datetime):
                 temp_value = datetime.datetime.strftime(value, '%Y-%m-%d %H:%M:%S')
-            elif isinstance(value, idempierewsc.enums.DocAction):
+            elif isinstance(value, enums.DocAction):
                 temp_value = value.value
-            elif isinstance(value, idempierewsc.enums.DocStatus):
+            elif isinstance(value, enums.DocStatus):
                 temp_value = value.value
             else:
                 if sys.version_info[0] == '2':

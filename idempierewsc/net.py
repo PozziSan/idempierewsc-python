@@ -20,16 +20,20 @@ along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 
 import time
 import platform
-import requests
 import idempierewsc
-import idempierewsc.exception
-import idempierewsc.request
-import idempierewsc.response
-import idempierewsc.base
-import lxml.etree
+
+from requests import post
+from requests import packages
+from requests import codes
+from requests import exceptions
+from idempierewsc import exception
+from idempierewsc import request
+from idempierewsc import response
+from idempierewsc import base
+from lxml import etree
 
 
-class WebServiceConnection(object):
+class WebServiceConnection():
     """
     Client class for soap protocol.
     This class send a stream data xml.
@@ -76,7 +80,7 @@ class WebServiceConnection(object):
         :return:
         """
         if self.request is None:
-            return ''
+            return None
         return 'ADInterface/services/{}'.format(self.request.web_service_definition().value)
 
     def web_service_url(self):
@@ -87,17 +91,13 @@ class WebServiceConnection(object):
         if self.path() is None:
             return self.url
 
-        temp_path = self.path()
+        temp_path = self.path().strip('/') if self.path().endswith('/') else self.path()
+        temp_url = self.url.strip('/') if self.url.endswith('/') else self.url
 
-        if temp_path.endswith('/'):
-            temp_path = temp_path.strip('/')
-
-        temp_url = self.url
-
-        if temp_url.endswith('/'):
-            temp_url = temp_url.strip('/')
-
-        return '{}/{}'.format(temp_url, temp_path)
+        return '{}/{}'.format(
+            temp_url, 
+            temp_path
+        )
 
     def send_request(self, request):
         """
@@ -108,19 +108,19 @@ class WebServiceConnection(object):
         if not self.web_service_url():
             raise WebServiceConnection('URL must be different than empty or null')
 
-        requests.packages.urllib3.disable_warnings()
+        packages.urllib3.disable_warnings()
 
         if isinstance(request, idempierewsc.base.WebServiceRequest):
             self.request = request
             factory = idempierewsc.request.RequestFactory()
             self.xml_request = factory.create_request(request)
-            data_request = lxml.etree.tostring(self.xml_request, encoding=self.ENCODING_UTF_8)
+            data_request = etree.tostring(self.xml_request, encoding=self.ENCODING_UTF_8)
             response_model = request.web_service_response_model()
         else:
             self.request = None
             data_request = request
             response_model = None
-            self.xml_request = lxml.etree.fromstring(data_request)
+            self.xml_request = etree.fromstring(data_request)
 
         self.attempts_request = 0
         start_time = int(time.time() * 1000.)
@@ -130,7 +130,7 @@ class WebServiceConnection(object):
         while not successful:
             self.attempts_request += 1
             try:
-                r = requests.post(
+                r = post(
                     self.web_service_url(), 
                     data=data_request,
                     headers={
@@ -142,7 +142,7 @@ class WebServiceConnection(object):
                     proxies=self.proxies
                 )
 
-                if r.status_code != requests.codes.ok:
+                if r.status_code != codes.ok:
                     r.raise_for_status()
 
                 data_response = r.text
@@ -151,23 +151,24 @@ class WebServiceConnection(object):
             except Exception as e:
                 if self.attempts_request >= self.attempts:
                     self.time_request = int(time.time() * 1000.) - start_time
-                    if isinstance(e, requests.exceptions.ReadTimeout):
+                    if isinstance(e, exceptions.ReadTimeout):
                         raise idempierewsc.exception.WebServiceTimeoutException(
-                                'Timeout exception, operation has expired {} {}'.format(
-                                    str(e.message), 
-                                    e
-                        )) 
+                            'Timeout exception, operation has expired {} {}'.format(
+                                str(e.message), 
+                                e
+                        ))
                     else:
-                        raise idempierewsc.exception.WebServiceException('Error sending request: {} {}'.format(
-                            str(e.message), 
-                            e
+                        raise idempierewsc.exception.WebServiceException(
+                            'Error sending request: {} {}'.format(
+                                str(e.message), 
+                                e
                         ))
                 else:
                     time.sleep(float(self.attempts_timeout) / 1000.)
 
         self.time_request = int(time.time() * 1000.) - start_time
 
-        self.xml_response = lxml.etree.fromstring(data_response)
+        self.xml_response = etree.fromstring(data_response)
         factory = idempierewsc.response.ResponseFactory()
 
         if not response_model:
@@ -180,7 +181,7 @@ class WebServiceConnection(object):
         Print the request
         :return: None
         """
-        st = lxml.etree.tostring(self.xml_request, pretty_print=True, encoding=self.ENCODING_UTF_8)
+        st = etree.tostring(self.xml_request, pretty_print=True, encoding=self.ENCODING_UTF_8)
         print(st.decode(self.ENCODING_UTF_8))
 
     def print_xml_response(self):
@@ -188,7 +189,7 @@ class WebServiceConnection(object):
         Print the response
         :return: None
         """
-        st = lxml.etree.tostring(self.xml_response, pretty_print=True, encoding=self.ENCODING_UTF_8)
+        st = etree.tostring(self.xml_response, pretty_print=True, encoding=self.ENCODING_UTF_8)
         print(st.decode(self.ENCODING_UTF_8))
 
     def save_xml_request(self, file_name):
@@ -197,10 +198,15 @@ class WebServiceConnection(object):
         :param file_name: File to save
         :return: None
         """
-        save_file = open(file_name, 'w')
-        save_file.write(lxml.etree.tostring(self.xml_request, pretty_print=True, encoding=self.ENCODING_UTF_8).decode(
-                self.ENCODING_UTF_8))
-        save_file.close()
+        
+        with open(file_name, 'w') as save_file:
+            save_file.write(etree.tostring(
+                self.xml_request, 
+                pretty_print=True, 
+                encoding=self.ENCODING_UTF_8
+                ).decode(
+                    self.ENCODING_UTF_8
+            ))
 
     def save_xml_response(self, file_name):
         """
@@ -208,7 +214,12 @@ class WebServiceConnection(object):
         :param file_name: File to save
         :return: None
         """
-        save_file = open(file_name, 'w')
-        save_file.write(lxml.etree.tostring(self.xml_response, pretty_print=True, encoding=self.ENCODING_UTF_8).decode(
-                self.ENCODING_UTF_8))
-        save_file.close()
+        with open(file_name, 'w') as save_file:
+            save_file.write(
+                etree.tostring(
+                    self.xml_response, 
+                    pretty_print=True, 
+                    encoding=self.ENCODING_UTF_8
+                ).decode(
+                    self.ENCODING_UTF_8
+            ))
