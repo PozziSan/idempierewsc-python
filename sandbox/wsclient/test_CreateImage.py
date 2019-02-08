@@ -2,6 +2,8 @@
 """
 Copyright (c) 2016 Saúl Piña <sauljabin@gmail.com>.
 
+Contributor: Pedro Pozzi Ferreira - @pozzisan <pedropozzif@gmail.com>
+
 This file is part of idempierewsc.
 
 idempierewsc is free software: you can redistribute it and/or modify
@@ -25,8 +27,9 @@ from idempierewsc.request import CreateDataRequest
 from idempierewsc.request import CompositeOperationRequest
 from idempierewsc.enums import WebServiceResponseStatus
 from idempierewsc.net import WebServiceConnection
+from random import randint
+
 import traceback
-import random
 
 url = 'http://localhost:8031'
 urls = 'https://localhost:8431'
@@ -49,15 +52,16 @@ ws1.data_row.append(Field('Description', 'Test Create BPartner and Logo'))
 
 # CREATE BINARY FIELD
 binary_field = Field('BinaryData')
-binary_field.set_byte_value(open(path_image, 'rb').read())
+with open(path_image, 'rb') as file:
+    binary_field.set_byte_value(file.read())
 ws1.data_row.append(binary_field)
 
 # CREATE WEBSERVICE FOR BPARTNER
 ws2 = CreateDataRequest()
 ws2.web_service_type = 'CreateBPartnerTest'
 ws2.data_row.append(Field('Name', 'Test BPartner'))
-ws2.data_row.append(Field('Value', random.randint(1000000, 10000000)))
-ws2.data_row.append(Field('TaxID', '987654321'))
+ws2.data_row.append(Field('Value', randint(1000000, 10000000)))
+# ws2.data_row.append(Field('TaxID', '987654321'))
 ws2.data_row.append(Field('Logo_ID', '@AD_Image.AD_Image_ID'))
 
 # CREATE COMPOSITE
@@ -81,14 +85,14 @@ try:
 
 # GET THE RESPONSE
     if response.status == WebServiceResponseStatus.Error:
-        print('Error: ' + response.error_message)
+        print('Error: ', response.error_message)
     else:
-        print('Response: ' + str(response.web_service_response_model()))
+        print('Response: ', str(response.web_service_response_model()))
         for res in response.responses:
-            print('Response: ' + str(res.web_service_response_model()))
-        print('---------------------------------------------')
-        print('Web Service Type: ' + ws0.web_service_type)
-        print('Attempts: ' + str(wsc.attempts_request))
-        print('Time: ' + str(wsc.time_request))
+            print('Response: ', str(res.web_service_response_model()))
+        print('-' * 45)
+        print('Web Service Type: ', ws0.web_service_type)
+        print('Attempts: ', str(wsc.attempts_request))
+        print('Time: ', str(wsc.time_request))
 except:
     traceback.print_exc()

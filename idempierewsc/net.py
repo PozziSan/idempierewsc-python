@@ -18,9 +18,13 @@ You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+"""
+Contributor: @pozzisan
+"""
 import time
 import platform
 import idempierewsc
+import urllib3
 
 from requests import post
 from requests import packages
@@ -106,9 +110,9 @@ class WebServiceConnection():
         :return: Response
         """
         if not self.web_service_url():
-            raise WebServiceConnection('URL must be different than empty or null')
+            raise exception.WebServiceException('URL must be different than empty or null')
 
-        packages.urllib3.disable_warnings()
+        urllib3.disable_warnings()
 
         if isinstance(request, idempierewsc.base.WebServiceRequest):
             self.request = request
@@ -142,7 +146,7 @@ class WebServiceConnection():
                     proxies=self.proxies
                 )
 
-                if r.status_code != codes.ok:
+                if r.status_code != codes[200]:
                     r.raise_for_status()
 
                 data_response = r.text
@@ -153,14 +157,12 @@ class WebServiceConnection():
                     self.time_request = int(time.time() * 1000.) - start_time
                     if isinstance(e, exceptions.ReadTimeout):
                         raise idempierewsc.exception.WebServiceTimeoutException(
-                            'Timeout exception, operation has expired {} {}'.format(
-                                str(e.message), 
+                            'Timeout exception, operation has expired {}'.format( 
                                 e
                         ))
                     else:
                         raise idempierewsc.exception.WebServiceException(
-                            'Error sending request: {} {}'.format(
-                                str(e.message), 
+                            'Error sending request: {}'.format( 
                                 e
                         ))
                 else:

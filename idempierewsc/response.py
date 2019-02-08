@@ -81,7 +81,7 @@ class WindowTabDataResponse(idempierewsc.base.WebServiceResponse):
         return idempierewsc.enums.WebServiceResponseModel.WindowTabDataResponse
 
 
-class ResponseFactory(object):
+class ResponseFactory():
     """
     ResponseFactory. Class for build responses
     """
@@ -130,11 +130,9 @@ class ResponseFactory(object):
 
             if temp_tag in self.FAULT_DEFINITION:
                 return self.has_fault_error(response, element)
-                break
 
             if temp_tag in self.RESPONSE_DEFINITION:
                 return operation(response, element)
-                break
 
         return None
 
@@ -293,14 +291,14 @@ class ResponseFactory(object):
 
             for row in rows:
                 fields = self.find_elements_0(row, 'field')
-                temp_row = []
                 response.data_set.append(temp_row)
+                temp_row = []
                 for f in fields:
                     field = idempierewsc.base.Field()
-                    temp_row.append(field)
                     field.column = f.get('column')
                     values = self.find_elements_0(f, 'val')
                     if len(values) > 0:
                         field.value = values[0].text
+                    temp_row.append(field)
 
         return response

@@ -19,8 +19,9 @@ along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import requests
+import urllib3
 
-requests.packages.urllib3.disable_warnings()
+urllib3.disable_warnings()
 
 url = 'http://localhost:8031/ADInterface/services/ModelADService'
 urls = 'https://localhost:8431/ADInterface/services/ModelADService'
@@ -28,24 +29,26 @@ headers = {'user-agent': 'my-app/0.0.1', 'content-type': 'text/xml; charset=UTF-
 
 
 def test_xml():
-    xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:_0="http://idempiere.org/ADInterface/1_0">'
-    xml += '<soapenv:Header/>'
-    xml += '<soapenv:Body>'
-    xml += '<_0:queryData>'
-    xml += '<_0:ModelCRUDRequest>'
-    xml += '<_0:ModelCRUD>'
-    xml += '<_0:serviceType>QueryBPartnerTest</_0:serviceType>'
-    xml += '</_0:ModelCRUD>'
-    xml += '<_0:ADLoginRequest>'
-    xml += '<_0:user>SuperUser</_0:user>'
-    xml += '<_0:pass>System</_0:pass>'
-    xml += '<_0:ClientID>11</_0:ClientID>'
-    xml += '<_0:RoleID>102</_0:RoleID>'
-    xml += '</_0:ADLoginRequest>'
-    xml += '</_0:ModelCRUDRequest>'
-    xml += '</_0:queryData>'
-    xml += '</soapenv:Body>'
-    xml += '</soapenv:Envelope>'
+    xml = """
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:_0="http://idempiere.org/ADInterface/1_0">
+    <soapenv:Header/>
+    <soapenv:Body>
+    <_0:queryData>
+    <_0:ModelCRUDRequest>
+    <_0:ModelCRUD>
+    <_0:serviceType>QueryBPartnerTest</_0:serviceType>
+    </_0:ModelCRUD>
+    <_0:ADLoginRequest>
+    <_0:user>SuperUser</_0:user>
+    <_0:pass>System</_0:pass>
+    <_0:ClientID>11</_0:ClientID>
+    <_0:RoleID>102</_0:RoleID>
+    </_0:ADLoginRequest>
+    </_0:ModelCRUDRequest>
+    </_0:queryData>
+    </soapenv:Body>
+    </soapenv:Envelope>
+    """
     return xml
 
 
@@ -63,6 +66,6 @@ try:
 except Exception as e:
     print(e)
 else:
-    print('Status:' + str(r.status_code))
-    print('Headers:' + str(r.headers))
-    print('Response:' + str(r.text))
+    print('Status: {}'.format(str(r.status_code)))
+    print('Headers: {}'.format(str(r.headers)))
+    print('Response: {}'.format(str(r.text)))

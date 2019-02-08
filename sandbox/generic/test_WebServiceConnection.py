@@ -35,7 +35,7 @@ wsc.attempts = 3
 try:
     response = wsc.send_request(test_xml())
 except Exception as e:
-    print('Error' + str(e.message))
+    print('Error', str(e))
 else:
     wsc.print_xml_response()
 finally:

@@ -31,7 +31,7 @@ setup(
         name='idempierewsc',
         version='1.0.1',
         packages=['idempierewsc'],
-        url='https://github.com/sauljabin/idempierewsc-python',
+        url='https://github.com/PozziSan/idempierewsc-python',
         license='LGPL 3',
         author='Saúl Piña',
         author_email='sauljabin@gmail.com',

@@ -51,23 +51,25 @@ try:
     wsc.print_xml_response()
 
     if response.status == WebServiceResponseStatus.Error:
-        print('Error: ' + response.error_message)
+        print('Error: ', response.error_message)
     else:
-        print('Total Rows: ' + str(response.total_rows))
-        print('Num rows: ' + str(response.num_rows))
-        print('Start row: ' + str(response.start_row))
+        print('Total Rows: ', str(response.total_rows))
+        print('Num rows: ', str(response.num_rows))
+        print('Start row: ', str(response.start_row))
         print('')
         for row in response.data_set:
             for field in row:
-                print(str(field.column) + ': ' + str(field.value))
+                print('{}: {}'.format(
+                    str(field.column),
+                    str(field.value)
+                ))
                 if str(field.column) == 'BinaryData':
-                    file = open('newfile.png', 'wb')
-                    file.write(field.get_byte_value())
-                    file.close()
+                    with open('newFile.png', 'wb') as file:
+                        file.write(field.get_byte_value())
             print('')
-        print('---------------------------------------------')
-        print('Web Service Type: ' + query.web_service_type)
-        print('Attempts: ' + str(wsc.attempts_request))
-        print('Time: ' + str(wsc.time_request))
+        print('-' * 25)
+        print('Web Service Type: ', query.web_service_type)
+        print('Attempts: ', str(wsc.attempts_request))
+        print('Time: ', str(wsc.time_request))
 except:
     traceback.print_exc()

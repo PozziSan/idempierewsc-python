@@ -20,10 +20,10 @@ along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 
 from lxml import etree
 
-prefix_0 = "_0";
-namespace_0 = "http://idempiere.org/ADInterface/1_0";
-prefix_soapenv = "soapenv";
-namespace_soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
+prefix_0 = "_0"
+namespace_0 = "http://idempiere.org/ADInterface/1_0"
+prefix_soapenv = "soapenv"
+namespace_soapenv = "http://schemas.xmlsoap.org/soap/envelope/"
 
 # root = etree.parse("../../documents/QueryBPartnerTest_response.xml")
 root = etree.parse("../../documents/StandardResponseError_Example.xml")

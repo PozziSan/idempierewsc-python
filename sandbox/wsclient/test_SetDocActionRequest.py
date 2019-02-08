@@ -52,12 +52,12 @@ try:
     wsc.print_xml_response()
 
     if response.status == WebServiceResponseStatus.Error:
-        print('Error: ' + response.error_message)
+        print('Error: ', response.error_message)
     else:
-        print('RecordID: ' + str(response.record_id))
-        print('---------------------------------------------')
-        print('Web Service Type: ' + ws.web_service_type)
-        print('Attempts: ' + str(wsc.attempts_request))
-        print('Time: ' + str(wsc.time_request))
+        print('RecordID: ', str(response.record_id))
+        print('-' * 45)
+        print('Web Service Type: ', ws.web_service_type)
+        print('Attempts: ', str(wsc.attempts_request))
+        print('Time: ', str(wsc.time_request))
 except:
     traceback.print_exc()

@@ -20,13 +20,13 @@ along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 
 from lxml import etree
 
-prefix_0 = "_0";
-namespace_0 = "http://idempiere.org/ADInterface/1_0";
-prefix_soapenv = "soapenv";
-namespace_soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
+prefix_0 = "_0"
+namespace_0 = "http://idempiere.org/ADInterface/1_0"
+prefix_soapenv = "soapenv"
+namespace_soapenv = "http://schemas.xmlsoap.org/soap/envelope/"
 
-attribute_xmlns = "xmlns";
-namespace_xmlns = "http://www.w3.org/2000/xmlns/";
+attribute_xmlns = "xmlns"
+namespace_xmlns = "http://www.w3.org/2000/xmlns/"
 
 url = 'http://localhost:8031/ADInterface/services/ModelADService'
 urls = 'https://localhost:8431/ADInterface/services/ModelADService'

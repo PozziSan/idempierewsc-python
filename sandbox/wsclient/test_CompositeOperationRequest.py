@@ -41,13 +41,22 @@ login.user = 'SuperUser'
 
 ws1 = CreateDataRequest()
 ws1.web_service_type = 'CreateMovementTest'
-ws1.data_row = [Field('C_DocType_ID', 143), Field('MovementDate', '2015-10-25 00:00:00'), Field('AD_Org_ID', '11')]
+ws1.data_row = [
+    Field('C_DocType_ID', 143),
+    Field('MovementDate', '2015-10-25 00:00:00'),
+    Field('AD_Org_ID', '11')
+]
 
 ws2 = CreateDataRequest()
 ws2.web_service_type = 'CreateMovementLineTest'
-ws2.data_row = [Field('M_Movement_ID', '@M_Movement.M_Movement_ID'), Field('M_Product_ID', '138'),
-                Field('MovementQty', '1'), Field('M_Locator_ID', '50001'), Field('M_LocatorTo_ID', '50000'),
-                Field('AD_Org_ID', '11')]
+ws2.data_row = [
+    Field('M_Movement_ID', '@M_Movement.M_Movement_ID'), 
+    Field('M_Product_ID', '138'),
+    Field('MovementQty', '1'), 
+    Field('M_Locator_ID', '50001'), 
+    Field('M_LocatorTo_ID', '50000'),
+    Field('AD_Org_ID', '11')
+]
 
 ws3 = SetDocActionRequest()
 ws3.web_service_type = 'DocActionMovementTest'
