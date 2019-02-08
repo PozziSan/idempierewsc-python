@@ -26,25 +26,28 @@ from idempierewsc.base import Field
 import traceback
 import random
 
-url = 'http://localhost:8031'
-urls = 'https://localhost:8431'
-
+url = 'http://dev11.devcoffee.com.br/'
+urls = 'https://teste.brerp.com.br/'
 login = LoginRequest()
 login.client_id = 11
 login.org_id = 0
 login.role_id = 102
-login.password = 'System'
-login.user = 'SuperUser'
+login.password = 'superuser @ brerp.com.br'
+login.user = 'caio_udiseen'
 
 ws = CreateDataRequest()
 ws.web_service_type = 'CreateBPartnerTest'
 ws.login = login
 
-ws.data_row = [Field('Name', 'Test BPartner'), Field('Value', random.randint(1000000, 10000000)),
-               Field('TaxID', '987654321')]
+ws.data_row = [
+    Field('Name', 'Chicão de Negócios'), 
+    Field('Value', 
+    str(random.randint(1000000, 10000000))),
+    Field('TaxID', '987654321')
+]
 
 wsc = WebServiceConnection()
-wsc.url = urls
+wsc.url = url
 wsc.attempts = 3
 wsc.app_name = 'Test from python'
 

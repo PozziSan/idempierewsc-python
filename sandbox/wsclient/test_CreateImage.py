@@ -31,19 +31,19 @@ from random import randint
 
 import traceback
 
-url = 'http://localhost:8031'
-urls = 'https://localhost:8431'
+url = 'http://dev04.devcoffee.com.br'
+urls = 'https://test.idempiere.org'
 
 # CREATE LOGIN
 login = LoginRequest()
 login.client_id = 11
 login.org_id = 0
 login.role_id = 102
-login.password = 'System'
-login.user = 'SuperUser'
+login.password = 'pp_brerp'
+login.user = 'superuser @ brerp.com.br'
 
 # CREATE WEBSERVICE FOR IMAGE
-path_image = '../../documents/idempiere-logo.png'
+path_image = '/home/pedro/Documentos/Workspace/PozziSan/idempierewsc/documents/idempiere-logo.png'
 
 ws1 = CreateDataRequest()
 ws1.web_service_type = 'CreateImageTest'
@@ -59,7 +59,7 @@ ws1.data_row.append(binary_field)
 # CREATE WEBSERVICE FOR BPARTNER
 ws2 = CreateDataRequest()
 ws2.web_service_type = 'CreateBPartnerTest'
-ws2.data_row.append(Field('Name', 'Test BPartner'))
+ws2.data_row.append(Field('Name', 'Chicão de Negócios'))
 ws2.data_row.append(Field('Value', randint(1000000, 10000000)))
 # ws2.data_row.append(Field('TaxID', '987654321'))
 ws2.data_row.append(Field('Logo_ID', '@AD_Image.AD_Image_ID'))
