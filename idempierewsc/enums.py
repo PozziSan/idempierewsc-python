@@ -17,6 +17,9 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
+"""
+Contributor: @pozzisan <pedropozzif@gmail.com>
+"""
 
 from enum import Enum
 

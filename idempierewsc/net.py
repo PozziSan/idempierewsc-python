@@ -1,4 +1,17 @@
 # -*- encoding: utf-8 -*-
+from lxml import etree
+from idempierewsc import base
+from idempierewsc import response
+from idempierewsc import request
+from idempierewsc import exception
+from requests import exceptions
+from requests import codes
+from requests import packages
+from requests import post
+import urllib3
+import idempierewsc
+import platform
+import time
 """
 Copyright (c) 2016 Saúl Piña <sauljabin@gmail.com>.
 
@@ -19,22 +32,8 @@ along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 """
-Contributor: @pozzisan
+Contributor: @pozzisan <pedropozzif@gmail.com>
 """
-import time
-import platform
-import idempierewsc
-import urllib3
-
-from requests import post
-from requests import packages
-from requests import codes
-from requests import exceptions
-from idempierewsc import exception
-from idempierewsc import request
-from idempierewsc import response
-from idempierewsc import base
-from lxml import etree
 
 
 class WebServiceConnection():
@@ -70,10 +69,10 @@ class WebServiceConnection():
         :return: Full user agent name
         """
         return '{} ({}/{}/{}/{}) {}'.format(
-            idempierewsc.name, 
+            idempierewsc.name,
             idempierewsc.component_name,
-            idempierewsc.version, 
-            "Python",        
+            idempierewsc.version,
+            "Python",
             platform.platform(),
             self.app_name
         ).strip()
@@ -99,7 +98,7 @@ class WebServiceConnection():
         temp_url = self.url.strip('/') if self.url.endswith('/') else self.url
 
         return '{}/{}'.format(
-            temp_url, 
+            temp_url,
             temp_path
         )
 
@@ -110,7 +109,8 @@ class WebServiceConnection():
         :return: Response
         """
         if not self.web_service_url():
-            raise exception.WebServiceException('URL must be different than empty or null')
+            raise exception.WebServiceException(
+                'URL must be different than empty or null')
 
         urllib3.disable_warnings()
 
@@ -118,7 +118,8 @@ class WebServiceConnection():
             self.request = request
             factory = idempierewsc.request.RequestFactory()
             self.xml_request = factory.create_request(request)
-            data_request = etree.tostring(self.xml_request, encoding=self.ENCODING_UTF_8)
+            data_request = etree.tostring(
+                self.xml_request, encoding=self.ENCODING_UTF_8)
             response_model = request.web_service_response_model()
         else:
             self.request = None
@@ -135,17 +136,18 @@ class WebServiceConnection():
             self.attempts_request += 1
             try:
                 r = post(
-                    self.web_service_url(), 
+                    self.web_service_url(),
                     data=data_request,
                     headers={
                         self.CONTENT_TYPE_HEADER: self.CONTENT_TYPE,
                         self.USE_AGENT_HEADER: self.user_agent()
                     },
-                    verify=False, 
-                    timeout=(float(self.timeout) / 1000.), 
+                    verify=False,
+                    timeout=(float(self.timeout) / 1000.),
                     proxies=self.proxies
                 )
 
+                print(r.text)
                 if r.status_code != codes[200]:
                     r.raise_for_status()
 
@@ -157,14 +159,14 @@ class WebServiceConnection():
                     self.time_request = int(time.time() * 1000.) - start_time
                     if isinstance(e, exceptions.ReadTimeout):
                         raise idempierewsc.exception.WebServiceTimeoutException(
-                            'Timeout exception, operation has expired {}'.format( 
-                                e
-                        ))
+                            'Timeout exception, operation has expired {}'.format(
+                                e.__str__()
+                            ))
                     else:
                         raise idempierewsc.exception.WebServiceException(
-                            'Error sending request: {}'.format( 
-                                e
-                        ))
+                            'Error sending request: {}'.format(
+                                e.__str__()
+                            ))
                 else:
                     time.sleep(float(self.attempts_timeout) / 1000.)
 
@@ -183,7 +185,8 @@ class WebServiceConnection():
         Print the request
         :return: None
         """
-        st = etree.tostring(self.xml_request, pretty_print=True, encoding=self.ENCODING_UTF_8)
+        st = etree.tostring(self.xml_request, pretty_print=True,
+                            encoding=self.ENCODING_UTF_8)
         print(st.decode(self.ENCODING_UTF_8))
 
     def print_xml_response(self):
@@ -191,7 +194,8 @@ class WebServiceConnection():
         Print the response
         :return: None
         """
-        st = etree.tostring(self.xml_response, pretty_print=True, encoding=self.ENCODING_UTF_8)
+        st = etree.tostring(self.xml_response,
+                            pretty_print=True, encoding=self.ENCODING_UTF_8)
         print(st.decode(self.ENCODING_UTF_8))
 
     def save_xml_request(self, file_name):
@@ -200,14 +204,14 @@ class WebServiceConnection():
         :param file_name: File to save
         :return: None
         """
-        
+
         with open(file_name, 'w') as save_file:
             save_file.write(etree.tostring(
-                self.xml_request, 
-                pretty_print=True, 
+                self.xml_request,
+                pretty_print=True,
                 encoding=self.ENCODING_UTF_8
-                ).decode(
-                    self.ENCODING_UTF_8
+            ).decode(
+                self.ENCODING_UTF_8
             ))
 
     def save_xml_response(self, file_name):
@@ -219,9 +223,9 @@ class WebServiceConnection():
         with open(file_name, 'w') as save_file:
             save_file.write(
                 etree.tostring(
-                    self.xml_response, 
-                    pretty_print=True, 
+                    self.xml_response,
+                    pretty_print=True,
                     encoding=self.ENCODING_UTF_8
                 ).decode(
                     self.ENCODING_UTF_8
-            ))
+                ))

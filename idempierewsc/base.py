@@ -18,12 +18,17 @@ You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+"""
+Contributor: @pozzisan <pedropozzif@gmail.com>
+"""
+
 from abc import ABCMeta
 from abc import abstractmethod
 from base64 import b64encode
 from base64 import b64decode
 from datetime import datetime
 from idempierewsc import enums
+from sys import version_info
 
 
 class LoginRequest(object):
@@ -59,21 +64,26 @@ class Field(object):
 
     def set_byte_value(self, val=None):
         """
-        Convert byte to base 64
-        :param val: Value to Base 64
+        Convert byte to unicode String
+        :param val: Value to unicode String
         :return: None
         """
         if val:
-            self.value = b64encode(val)
+            if version_info[0] == '2':
+                self.value = b64encode(val)
+            else:
+                b64value = b64encode(val)
+                self.value = b64value.decode('utf-8', 'xmlcharrefreplace')
 
     def get_byte_value(self):
         """
-        Convert base 64 to byte
-        :return: Base64
+        Return unicode String of byte value
+        :return: String
         """
-        if self.value:
+        if version_info[0] == '2':
             return b64decode(self.value)
-        return False
+        else:
+            return self.value if self.value else False
 
     def get_boolean_value(self):
         """
@@ -83,11 +93,7 @@ class Field(object):
         if self.value:
             temp_value = str(self.value).upper()
 
-            if temp_value in ('Y', 'YES'):
-                return True
-
-            if temp_value in ('N', 'NO'):
-                return False
+            return True if temp_value in ('Y', 'YES') else False
         return False
 
     def get_type(self):
@@ -105,7 +111,7 @@ class Field(object):
         if self.value:
             temp_value = str(self.value)
             return datetime.strptime(temp_value, '%Y-%m-%d %H:%M:%S')
-        return ''
+        return None
 
     def get_doc_status_value(self):
         """
@@ -115,7 +121,7 @@ class Field(object):
         if self.value:
             temp_value = str(self.value)
             return enums.DocStatus(temp_value)
-        return ''
+        return None
 
     def get_doc_action_value(self):
         """
@@ -125,7 +131,7 @@ class Field(object):
         if self.value:
             temp_value = str(self.value)
             return enums.DocAction(temp_value)
-        return ''
+        return None
 
 
 class Operation(object):

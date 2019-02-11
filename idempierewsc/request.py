@@ -16,6 +16,8 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with   If not, see <http://www.gnu.org/licenses/>.
+
+Contributor: @pozzisan <pedropozzif@gmail.com>
 """
 
 from idempierewsc import base
@@ -226,10 +228,7 @@ class RequestFactory(object):
         """
         element = lxml.etree.Element('{%s}%s' % (self.NAMESPACE_0, name))
         if text:
-            if isinstance(text,str):
-                element.text = text.decode('utf-8')
-            else:
-                element.text = str(text)
+            element.text = str(text)
         return element
 
     def create_element_soapenv(self, name, text=None):

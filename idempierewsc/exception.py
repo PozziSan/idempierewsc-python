@@ -18,6 +18,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+"""
+Contributor: @pozzisan <pedropozzif@gmail.com>
+"""
 
 class WebServiceException(Exception):
     def __init__(self, message, cause=None):

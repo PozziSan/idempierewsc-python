@@ -18,19 +18,23 @@ You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+"""
+Contributor: @pozzisan <pedropozzif@gmail.com>
+"""
+
 from idempierewsc.net import WebServiceConnection
 
-url = 'http://localhost:8031/ADInterface/services/ModelADService'
+url = 'http://dev11.devcoffee.com.br/ADInterface/services/ModelADService'
 urls = 'https://localhost:8431/ADInterface/services/ModelADService'
 
 
 def test_xml():
-    test_file = open('../../documents/ReadBPartnerTest_request.xml', 'r')
+    test_file = open('../documents/ReadBPartnerTest_request.xml', 'r')
     return test_file.read()
 
 
 wsc = WebServiceConnection()
-wsc.url = urls
+wsc.url = url
 wsc.attempts = 3
 try:
     response = wsc.send_request(test_xml())

@@ -1,4 +1,6 @@
 # -*- encoding: utf-8 -*-
+import urllib3
+import requests
 """
 Copyright (c) 2016 Saúl Piña <sauljabin@gmail.com>.
 
@@ -17,15 +19,19 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
+"""
+Contributor: @pozzisan <pedropozzif@gmail.com>
+"""
 
-import requests
-import urllib3
 
 urllib3.disable_warnings()
 
-url = 'http://localhost:8031/ADInterface/services/ModelADService'
+url = 'http://dev11.devcoffee.com.br/ADInterface/services/ModelADService'
 urls = 'https://localhost:8431/ADInterface/services/ModelADService'
-headers = {'user-agent': 'my-app/0.0.1', 'content-type': 'text/xml; charset=UTF-8'}
+headers = {
+    'user-agent': 'my-app/0.0.1',
+    'content-type': 'text/xml; charset=UTF-8'
+}
 
 
 def test_xml():
@@ -39,8 +45,8 @@ def test_xml():
     <_0:serviceType>QueryBPartnerTest</_0:serviceType>
     </_0:ModelCRUD>
     <_0:ADLoginRequest>
-    <_0:user>SuperUser</_0:user>
-    <_0:pass>System</_0:pass>
+    <_0:user>superuser @ brerp.com.br</_0:user>
+    <_0:pass>pp_brerp</_0:pass>
     <_0:ClientID>11</_0:ClientID>
     <_0:RoleID>102</_0:RoleID>
     </_0:ADLoginRequest>
@@ -62,7 +68,8 @@ print('Request:' + request)
 
 # timeout on seconds
 try:
-    r = requests.post(url, data=request, headers=headers, verify=False, timeout=2)
+    r = requests.post(url, data=request, headers=headers,
+                      verify=False, timeout=2)
 except Exception as e:
     print(e)
 else:

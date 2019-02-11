@@ -19,6 +19,9 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
+"""
+Contributor: @pozzisan <pedropozzif@gmail.com>
+"""
 
 from idempierewsc.base import LoginRequest
 from idempierewsc.base import Operation
@@ -31,7 +34,7 @@ from random import randint
 
 import traceback
 
-url = 'http://dev04.devcoffee.com.br'
+url = 'https://test.idempiere.org'
 urls = 'https://test.idempiere.org'
 
 # CREATE LOGIN
@@ -39,16 +42,16 @@ login = LoginRequest()
 login.client_id = 11
 login.org_id = 0
 login.role_id = 102
-login.password = 'pp_brerp'
-login.user = 'superuser @ brerp.com.br'
+login.warehouse_id = 50002
 
 # CREATE WEBSERVICE FOR IMAGE
-path_image = '/home/pedro/Documentos/Workspace/PozziSan/idempierewsc/documents/idempiere-logo.png'
+path_image = '../documents/idempiere-logo.png'
 
 ws1 = CreateDataRequest()
 ws1.web_service_type = 'CreateImageTest'
-ws1.data_row.append(Field('Name', path_image))
-ws1.data_row.append(Field('Description', 'Test Create BPartner and Logo'))
+ws1.data_row.append(Field('Name', 'idempiere-logo.png'))
+ws1.data_row.append(
+    Field('Description', 'Test Create BPartner and Logo with Python'))
 
 # CREATE BINARY FIELD
 binary_field = Field('BinaryData')
@@ -59,27 +62,27 @@ ws1.data_row.append(binary_field)
 # CREATE WEBSERVICE FOR BPARTNER
 ws2 = CreateDataRequest()
 ws2.web_service_type = 'CreateBPartnerTest'
-ws2.data_row.append(Field('Name', 'Chicão de Negócios'))
-ws2.data_row.append(Field('Value', randint(1000000, 10000000)))
+ws2.data_row.append(Field('Name', 'Business Partner Test'))
+ws2.data_row.append(Field('Value', str(randint(1000000, 10000000))))
 # ws2.data_row.append(Field('TaxID', '987654321'))
 ws2.data_row.append(Field('Logo_ID', '@AD_Image.AD_Image_ID'))
 
 # CREATE COMPOSITE
-ws0 = CompositeOperationRequest()
-ws0.login = login
+ws0=CompositeOperationRequest()
+ws0.login=login
 ws0.operations.append(Operation(ws1))
 ws0.operations.append(Operation(ws2))
-ws0.web_service_type = 'CompositeBPartnerTest'
+ws0.web_service_type='CompositeBPartnerTest'
 
 # CREATE CONNECTION
-wsc = WebServiceConnection()
-wsc.url = urls
-wsc.attempts = 3
-wsc.app_name = 'Test from python'
+wsc=WebServiceConnection()
+wsc.url=url
+wsc.attempts=3
+wsc.app_name='Test from python'
 
 # SEND CONNECTION
 try:
-    response = wsc.send_request(ws0)
+    response=wsc.send_request(ws0)
     wsc.print_xml_request()
     wsc.print_xml_response()
 

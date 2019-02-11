@@ -18,6 +18,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with idempierewsc.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+"""
+Contributor: @pozzisan <pedropozzif@gmail.com>
+"""
+
 from idempierewsc.request import CreateDataRequest
 from idempierewsc.request import CompositeOperationRequest
 from idempierewsc.request import SetDocActionRequest
